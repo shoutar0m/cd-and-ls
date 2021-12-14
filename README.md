@@ -1,6 +1,6 @@
 # Change Directory AND LiSt all components
 ![demo](./imgs/demo.png)
-**cd** (ディレクトリを移動) した時に **ls -a** (移動先のディレクトリ名・ファイル名を全て表示) してくれる関数を作成しました。
+**cd** (ディレクトリを移動) した時に **ls -a** (移動先のディレクトリ名・ファイル名を全て表示) してくれる関数を作成しました。  
 ※ [こちら](https://qiita.com/shoutar0m/items/df122410820cdf7c7dea) も合わせてご覧ください。
 
 ## Requirements
@@ -47,4 +47,4 @@ cd Development/Python/xonsh_func
 
 ## Note
 38文字を超えるディレクトリ名・ファイル名の表示に対応できていません。  
-今後修正していきます ...
+今後修正していく予定です... 。
