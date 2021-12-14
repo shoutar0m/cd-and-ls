@@ -6,19 +6,19 @@ from myfunc import CdAndLs
 
 # 自作関数の作成
 def cd_and_ls(arg):
-	"""cd した時に ls してくれる関数。"""
+    """cd した時に ls してくれる関数。"""
 
-	try:
-		if arg[:1]:
-			path = str(arg[:1][0])
-		else:
-	    		path = 'path/to/home'  # cd のみ (引数無し) の場合
+    try:
+        if arg[:1]:
+            path = str(arg[:1][0])
+        else:
+            path = 'path/to/home'  # cd のみ (引数無し) の場合
 
-		func = CdAndLs()
-		func.main(path)
+        func = CdAndLs()
+        func.main(path)
 
-	except FileNotFoundError:
-	    	print(f'\nNo such directory: "{path}"')
+    except FileNotFoundError:
+        print(f'\nNo such directory: "{path}"')
 
 
 # エイリアスの作成
