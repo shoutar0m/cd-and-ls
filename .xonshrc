@@ -1,27 +1,26 @@
-# 自作関数の定義
+
 import sys
-sys.path.append("myfunc.pyが保存されているディレクトリまでのパス")
+sys.path.append('path/to/myfunc.py')
 
 from myfunc import CdAndLs
 
-def cd_ls(arg):
-	""" cd した後に ls してくれる関数 """
+def cd_and_ls(arg):
+	"""cd した後に ls してくれる関数。"""
 
 	try:
 		if arg[:1]:
-			path = str(arg[:1][0])  # 引数が渡された場合
+			path = str(arg[:1][0])
 		else:
-	    		path = "ホームディレクトリまでのパス"  # cdのみの場合
+	    		path = 'path/to/home'  # cd のみ (引数無し) の場合
 
-		func = CdAndLs()  # インスタンスの作成
-
-		func.main(path)  # 指定したパスへ移動する。
+		func = CdAndLs()
+		func.main(path)  # CdAndLs クラスのメソッドを実行する。
 		
 		if not func.dirs_list:
-			func.dirs_list = "↪︎ No Directories"  # ディレクトリが無い場合
+			func.dirs_list = '↪︎ No Directories'
 	
 		if not func.files_list:
-			func.files_list = "↪︎ No files"  # ファイルが無い場合
+			func.files_list = '↪︎ No files'
 
 		print(func.dir_title + func.dirs_list + func.files_title + func.files_list)
 
@@ -30,4 +29,4 @@ def cd_ls(arg):
 
 
 # エイリアスの作成
-aliases["cd"] = cd_ls
+aliases["cd"] = cd_and_ls
