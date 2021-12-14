@@ -27,12 +27,12 @@ from myfunc import CdAndLs
 # 自作関数の定義
 def cd_and_ls(arg):
 	
-	︙
+    ︙
 	
-	func = CdAndLs()
-	func.main(path)
+    func = CdAndLs()
+    func.main(path)
 	
-	︙
+    ︙
 	
 	
 # エイリアスの作成
