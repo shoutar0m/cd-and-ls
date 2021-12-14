@@ -6,7 +6,7 @@ from myfunc import CdAndLs
 
 # 自作関数の作成
 def cd_and_ls(arg):
-	"""cd した後に ls してくれる関数。"""
+	"""cd した時に ls してくれる関数。"""
 
 	try:
 		if arg[:1]:
