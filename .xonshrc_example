@@ -16,14 +16,6 @@ def cd_and_ls(arg):
 
 		func = CdAndLs()
 		func.main(path)
-		
-		if not func.dirs_list:
-			func.dirs_list = '↪︎ No Directories'
-	
-		if not func.files_list:
-			func.files_list = '↪︎ No files'
-
-		print(func.dir_title + func.dirs_list + func.files_title + func.files_list)
 
 	except FileNotFoundError:
 	    	print(f'\nNo such directory: "{path}"')

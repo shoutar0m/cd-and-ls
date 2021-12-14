@@ -165,3 +165,11 @@ class CdAndLs:
         self.get_items()  # ディレクトリ名とファイル名を全て取得する。
         self.align_width()  # 幅が半角で38文字分になるように空白を追加する。
         self.create_display_str()  # 2列ずつに並べて文字列を作成する。
+
+        if not self.dirs_list:
+            self.dirs_list = '↪︎ No Directories'  # ディレクトリが無い場合
+
+        if not self.files_list:
+            self.files_list = '↪︎ No files'  # ファイルが無い場合
+
+        print(self.dir_title + self.dirs_list + self.files_title + self.files_list)
