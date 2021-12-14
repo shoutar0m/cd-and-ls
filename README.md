@@ -41,7 +41,7 @@ aliases['cd'] = cd_and_ls
 3. ターミナルアプリを起動し、以下のように `cd` コマンドをご使用ください。
 
 ```
-cd Development/Python/xonsh_func 
+cd Development/Python/xonsh_func  # Example
 ```
 ![demo](./imgs/demo.png)
 ## Note
