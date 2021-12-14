@@ -1,0 +1,36 @@
+# 自作関数の定義
+import sys
+sys.path.append("myfunc.pyが保存されているディレクトリまでのパス")
+
+from myfunc import CdAndLs
+
+def cd_ls(arg):
+	""" cd した後に ls してくれる関数 """
+
+	try:
+		if arg[:1]:
+			path = str(arg[:1][0])  # 引数が渡された場合
+		else:
+	    		path = "ホームディレクトリまでのパス"  # cdのみの場合
+
+		func = CdAndLs()  # インスタンスの作成
+
+		func.change_dir(path)  # 指定したパスへ移動する。
+		func.get_items()  # ディレクトリ名とファイル名を全て取得する。
+		func.add_blank()  # 幅が半角で38文字分になるように空白を追加する。
+		func.arrange_list()  # 2列ずつに並べて整形する。
+		
+		if not func.dirs_list:
+			func.dirs_list = "↪︎ No Directories"  # ディレクトリが無い場合
+	
+		if not func.files_list:
+			func.files_list = "↪︎ No files"  # ファイルが無い場合
+
+		print(func.dir_title + func.dirs_list + func.files_title + func.files_list)
+
+	except FileNotFoundError:
+	    	print(f'\nNo such directory: "{path}"')
+
+
+# エイリアスの作成
+aliases["cd"] = cd_ls
