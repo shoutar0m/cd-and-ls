@@ -15,10 +15,7 @@ def cd_ls(arg):
 
 		func = CdAndLs()  # インスタンスの作成
 
-		func.change_dir(path)  # 指定したパスへ移動する。
-		func.get_items()  # ディレクトリ名とファイル名を全て取得する。
-		func.add_blank()  # 幅が半角で38文字分になるように空白を追加する。
-		func.arrange_list()  # 2列ずつに並べて整形する。
+		func.main(path)  # 指定したパスへ移動する。
 		
 		if not func.dirs_list:
 			func.dirs_list = "↪︎ No Directories"  # ディレクトリが無い場合
