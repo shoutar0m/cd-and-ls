@@ -1,4 +1,50 @@
-# Change Directory And List All Components
-
+# Change Directory AND LiSt all components
 ![demo](./imgs/demo.png)
-作成中 ...
+**cd** (ディレクトリを移動) した時に **ls -a** (移動先のディレクトリ名・ファイル名を全て表示) してくれる関数を作成しました。
+※ [こちら](https://qiita.com/shoutar0m/items/df122410820cdf7c7dea) も合わせてご覧ください。
+
+## Requirements
+- Python==3.8
+- xonsh==0.11.0
+
+## Install
+以下のコマンドでこのリポジトリをクローンしてください。
+
+```
+git clone "https://github.com/shoutar0m/cd-and-ls"
+```
+
+## Usage
+1.  `.xonshrc` を適切なディレクトリに作成してください。
+2.  以下のコードや `.xonshrc_example` を参考に、`CdAndLs` クラスの `main()` メソッドを呼び出すコードを追記してください。
+
+```.xonshrc
+import sys
+sys.path.append('path/to/myfunc.py')
+	
+from myfunc import CdAndLs
+	
+# 自作関数の定義
+def cd_and_ls(arg):
+	
+	︙
+	
+	func = CdAndLs()
+	func.main(path)
+	
+	︙
+	
+	
+# エイリアスの作成
+aliases['cd'] = cd_and_ls
+```
+3. ターミナルアプリを起動し、以下のように `cd` コマンドをご使用ください。
+
+```
+cd Development/Python/xonsh_func 
+```
+![demo](./imgs/demo.png)
+
+## Note
+38文字を超えるディレクトリ名・ファイル名の表示に対応できていません。  
+今後修正していきます ...

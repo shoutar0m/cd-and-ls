@@ -4,6 +4,7 @@ sys.path.append('path/to/myfunc.py')
 
 from myfunc import CdAndLs
 
+# 自作関数の作成
 def cd_and_ls(arg):
 	"""cd した後に ls してくれる関数。"""
 
@@ -14,7 +15,7 @@ def cd_and_ls(arg):
 	    		path = 'path/to/home'  # cd のみ (引数無し) の場合
 
 		func = CdAndLs()
-		func.main(path)  # CdAndLs クラスのメソッドを実行する。
+		func.main(path)
 		
 		if not func.dirs_list:
 			func.dirs_list = '↪︎ No Directories'
@@ -29,4 +30,4 @@ def cd_and_ls(arg):
 
 
 # エイリアスの作成
-aliases["cd"] = cd_and_ls
+aliases['cd'] = cd_and_ls
