@@ -77,34 +77,38 @@ class CdAndLs:
 
         self.dirs, self.files = dirs, files
 
-    def fullwidth_contains_judge(self, string: str) -> bool:
-        """文字列中に全角文字かの判断。
+    def japanese_contains_judge(self, string: str) -> bool:
+        """文字列中に日本語が含まれるかの判断。
 
-        引数に渡した文字列に全角文字が含まれるか判断します。
-        全角文字が含まれる場合は、その文字を半角2文字分として文字数をカウントします。
+        引数に渡した文字列に日本語が含まれるか判断します。
+        日本語が含まれる場合は、その文字を半角2文字分として文字数をカウントします。
 
         Args:
-            string (str): 全角が含まれるかどうか判断したい文字列。
+            string (str): 日本語が含まれるかどうか判断したい文字列。
 
         Returns:
-            contains_fullwidth (bool): 全角文字が含まれる場合は True が返されます。
+            contains_japanese (bool): 全角文字が含まれる場合は True が返されます。
+
+        Note:
+            文字列に日本語が含まれるかの判断は、以下のサイトを参考にさせていただきました。
+            https://minus9d.hatenablog.com/entry/2015/07/16/231608
 
         """
-        contains_fullwidth: bool = False
+        contains_japanese: bool = False
         count: int = 0  # カウンタ変数。
 
         for char in string:
             name = unicodedata.name(char)
 
             if ('CJK UNIFIED' in name) or ('HIRAGANA' in name) or ('KATAKANA' in name):
-                count = count + 2  # 全角文字は2文字としてカウントする。
-                contains_fullwidth = True
+                count = count + 2  # 日本語は2文字としてカウントする。
+                contains_japanese = True
 
             else:
                 count = count + 1
 
         self.str_len = count
-        return contains_fullwidth
+        return contains_japanese
 
     def align_width(self) -> None:
         """ディレクトリ名およびファイル名の文字数を揃える。
@@ -114,14 +118,14 @@ class CdAndLs:
         """
         for index, dir_name in enumerate(self.dirs):  # ディレクトリ名について
             dir_name = dir_name + '/'
-            if self.fullwidth_contains_judge(dir_name):
-                self.dirs[index] = dir_name + ' ' * (38 - self.str_len)  # 全角文字が含まれる場合
+            if self.japanese_contains_judge(dir_name):
+                self.dirs[index] = dir_name + ' ' * (38 - self.str_len)  # 日本語が含まれる場合
             else:
                 self.dirs[index] = dir_name.ljust(38)  # 半角文字のみの場合
 
         for index, file_name in enumerate(self.files):  # ファイル名について
-            if self.fullwidth_contains_judge(file_name):
-                self.files[index] = file_name + ' ' * (38 - self.str_len)  # 全角文字が含まれる場合
+            if self.japanese_contains_judge(file_name):
+                self.files[index] = file_name + ' ' * (38 - self.str_len)  # 日本語が含まれる場合
             else:
                 self.files[index] = file_name.ljust(38)  # 半角文字のみの場合
 
