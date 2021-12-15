@@ -167,9 +167,9 @@ class CdAndLs:
         self.create_display_str()  # 2列ずつに並べて文字列を作成。
 
         if not self.dirs_list:
-            self.dirs_list = '↪︎ No Directories'  # ディレクトリが無い場合
+            self.dirs_list = '↪︎ No Directories'  # ディレクトリが無い場合。
 
         if not self.files_list:
-            self.files_list = '↪︎ No files'  # ファイルが無い場合
+            self.files_list = '↪︎ No files'  # ファイルが無い場合。
 
         print(self.dir_title + self.dirs_list + self.files_title + self.files_list)
