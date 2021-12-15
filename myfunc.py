@@ -111,7 +111,7 @@ class CdAndLs:
         return contains_japanese
 
     def align_width(self) -> None:
-        """ディレクトリ名およびファイル名の文字数を揃える。
+        """ディレクトリ名およびファイル名の文字数を調節。
 
         各ディレクトリ名およびファイル名に対して、文字数が38文字になるように空白文字を追加します。
 
