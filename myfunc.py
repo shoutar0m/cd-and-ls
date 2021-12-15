@@ -161,10 +161,10 @@ class CdAndLs:
         .xonshrc でこのメソッドを呼び出してください。
 
         """
-        self.change_dir(path)  # 指定したパスへ移動する。
-        self.get_items()  # ディレクトリ名とファイル名を全て取得する。
-        self.align_width()  # 幅が半角で38文字分になるように空白を追加する。
-        self.create_display_str()  # 2列ずつに並べて文字列を作成する。
+        self.change_dir(path)  # 指定したパスへ移動。
+        self.get_items()  # ディレクトリ名とファイル名を全て取得。
+        self.align_width()  # 幅が半角で38文字分になるように空白を追加。
+        self.create_display_str()  # 2列ずつに並べて文字列を作成。
 
         if not self.dirs_list:
             self.dirs_list = '↪︎ No Directories'  # ディレクトリが無い場合
