@@ -1,7 +1,6 @@
 # Change Directory AND LiSt all components
 ![demo](./imgs/demo.png)
-**cd** (ディレクトリを移動) した時に **ls -a** (移動先のディレクトリ名・ファイル名を全て表示) してくれる関数を作成しました。  
-[xonsh](https://xon.sh) 上で動作します。  
+**cd** (ディレクトリを移動) した時に **ls -a** (移動先のディレクトリ名・ファイル名を全て表示) してくれる関数を作成しました。[xonsh](https://xon.sh) 上で実行できます。  
 ※ [こちら](https://qiita.com/shoutar0m/items/df122410820cdf7c7dea) も合わせてご覧ください。
 
 ## Requirements
