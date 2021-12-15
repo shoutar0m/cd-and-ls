@@ -22,7 +22,7 @@ from typing import List
 class CdAndLs:
     """Change Directory And List All Components.
 
-    cd and ls するために必要な属性とメソッドを定義します。
+    cd した時に ls -a するために必要な属性とメソッドを定義します。
 
     Attributes:
         self.dir_title (str): ディレクトリ一覧のタイトル。
