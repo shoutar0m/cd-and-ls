@@ -1,6 +1,7 @@
 # Change Directory AND LiSt all components
 ![demo](./imgs/demo.png)
 **cd** (ディレクトリを移動) した時に **ls -a** (移動先のディレクトリ名・ファイル名を全て表示) してくれる関数を作成しました。  
+[xonsh](https://xon.sh) 上で動作します。  
 ※ [こちら](https://qiita.com/shoutar0m/items/df122410820cdf7c7dea) も合わせてご覧ください。
 
 ## Requirements
@@ -16,7 +17,7 @@ git clone "https://github.com/shoutar0m/cd-and-ls"
 
 ## Usage
 1.  `.xonshrc` を適切なディレクトリに作成してください。
-2.  以下のコードや `.xonshrc_example` を参考に、`CdAndLs` クラスの `main()` メソッドを呼び出すコードを追記してください。
+2.  以下のコードや `.xonshrc_example` を参考に、`CdAndLs` クラスの `main()` メソッドを呼び出すコードとエイリアスを追記してください。
 
 ```.xonshrc
 import sys
