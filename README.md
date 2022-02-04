@@ -47,3 +47,4 @@ cd Development/Python/xonsh_func  # Example
 ## Note
 38文字を超えるディレクトリ名・ファイル名の表示に対応できていません。  
 今後修正していく予定です... 。
+文字列に日本語が含まれるかの判断は、[こちら](https://minus9d.hatenablog.com/entry/2015/07/16/231608) のサイトを参考にさせていただきました。
