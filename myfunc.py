@@ -25,26 +25,27 @@ class CdAndLs:
     cd した時に ls -a するために必要な属性とメソッドを定義します。
 
     Attributes:
-        self.dir_title (str): ディレクトリ一覧のタイトル。
-        self.files_title (str): ファイル一覧のタイトル。
         new_path (str): 移動先のパスを格納する。
         self.dirs List[str]: ディレクトリ名の一覧を格納する変数。
         self.files List[str]: ファイル名の一覧を格納する変数。
         self.str_len (int): 全角を含んだ文字列の文字数を格納する変数。
         self.dirs_list (str): ディレクトリ一覧を表示するための文字列を格納する変数。
         self.files_list (str): ファイル一覧を表示するための文字列を格納する変数。
+        self.dirs_list_header (str): ディレクトリ一覧のタイトル。
+        self.files_list_header (str): ファイル一覧のタイトル。
 
     """
 
     def __init__(self):
-        self.dir_title: str = '\n' + '------- directories -------'.center(52) + '\n'
-        self.files_title: str = '\n\n' + '------- files -------'.center(52) + '\n'
         self.new_path: str = ''
         self.dirs: List[str] = []
         self.files: List[str] = []
         self.str_len: int = 0
         self.dirs_list: str = ''
         self.files_list: str = ''
+        self.dirs_list_header: str = '\n' + '------- directories -------'.center(52) + '\n'
+        self.files_list_header: str = '\n\n' + '------- files -------'.center(52) + '\n'
+
 
     def change_dir(self, path: str) -> None:
         """ディレクトリの移動。
@@ -77,7 +78,7 @@ class CdAndLs:
 
         self.dirs, self.files = dirs, files
 
-    def japanese_contains_judge(self, string: str) -> bool:
+    def check_japanese_or_not(self, string: str) -> bool:
         """文字列中に日本語が含まれるかの判断。
 
         引数に渡した文字列に日本語が含まれるか判断します。
@@ -117,16 +118,22 @@ class CdAndLs:
 
         """
         for index, dir_name in enumerate(self.dirs):  # ディレクトリ名について
-            dir_name = dir_name + '/'
-            if self.japanese_contains_judge(dir_name):
+            
+            if self.check_japanese_or_not(dir_name):
+                dir_name = dir_name + '/'
                 self.dirs[index] = dir_name + ' ' * (38 - self.str_len)  # 日本語が含まれる場合
             else:
+                if len(dir_name) >= 28:
+                    dir_name = dir_name[:28] + ' ...  '
+                dir_name = dir_name + '/'
                 self.dirs[index] = dir_name.ljust(38)  # 半角文字のみの場合
 
         for index, file_name in enumerate(self.files):  # ファイル名について
-            if self.japanese_contains_judge(file_name):
+            if self.check_japanese_or_not(file_name):
                 self.files[index] = file_name + ' ' * (38 - self.str_len)  # 日本語が含まれる場合
             else:
+                if len(file_name) >= 30:
+                    file_name = file_name[:30] + ' ...'
                 self.files[index] = file_name.ljust(38)  # 半角文字のみの場合
 
     def create_display_str(self) -> None:
@@ -172,4 +179,4 @@ class CdAndLs:
         if not self.files_list:
             self.files_list = '↪︎ No files'  # ファイルが無い場合。
 
-        print(self.dir_title + self.dirs_list + self.files_title + self.files_list)
+        print(self.dirs_list_header + self.dirs_list + self.files_list_header + self.files_list)
