@@ -15,8 +15,6 @@ Note:
 """
 
 import os
-import unicodedata
-from typing import List
 
 
 class CdAndLs:
@@ -29,22 +27,22 @@ class CdAndLs:
         self.dirs List[str]: ディレクトリ名の一覧を格納する変数。
         self.files List[str]: ファイル名の一覧を格納する変数。
         self.str_len (int): 全角を含んだ文字列の文字数を格納する変数。
-        self.dirs_list (str): ディレクトリ一覧を表示するための文字列を格納する変数。
-        self.files_list (str): ファイル一覧を表示するための文字列を格納する変数。
         self.dirs_list_header (str): ディレクトリ一覧のタイトル。
         self.files_list_header (str): ファイル一覧のタイトル。
+        self.dirs_list_body (str): ディレクトリ一覧を表示するための文字列を格納する変数。
+        self.files_list_body (str): ファイル一覧を表示するための文字列を格納する変数。
 
     """
 
     def __init__(self):
         self.new_path: str = ''
-        self.dirs: List[str] = []
-        self.files: List[str] = []
+        self.dirs: list[str] = []
+        self.files: list[str] = []
         self.str_len: int = 0
-        self.dirs_list: str = ''
-        self.files_list: str = ''
         self.dirs_list_header: str = '\n' + '------- directories -------'.center(52) + '\n'
         self.files_list_header: str = '\n\n' + '------- files -------'.center(52) + '\n'
+        self.dirs_list_body: str = ''
+        self.files_list_body: str = ''
 
 
     def change_dir(self, path: str) -> None:
@@ -65,12 +63,12 @@ class CdAndLs:
         カレントディレクトリのディレクトリ名とファイル名を全て取得し、アルファベット順にソートします。
 
         """
-        all_items: List[str] = os.listdir(self.new_path)
+        all_items: list[str] = os.listdir(self.new_path)
 
-        dirs: List[str] = [dir_name for dir_name in all_items
+        dirs: list[str] = [dir_name for dir_name in all_items
                            if os.path.isdir(os.path.join(self.new_path, dir_name))]  # ディレクトリ名のみを取得する。
 
-        files: List[str] = [file_name for file_name in all_items
+        files: list[str] = [file_name for file_name in all_items
                             if os.path.isfile(os.path.join(self.new_path, file_name))]  # ファイル名のみを取得する。
 
         dirs.sort(key=str.lower)
@@ -78,7 +76,7 @@ class CdAndLs:
 
         self.dirs, self.files = dirs, files
 
-    def check_japanese_or_not(self, string: str) -> bool:
+    def align_width(self, string: str, is_dir_name: bool =True) -> bool:
         """文字列中に日本語が含まれるかの判断。
 
         引数に渡した文字列に日本語が含まれるか判断します。
@@ -95,46 +93,49 @@ class CdAndLs:
             https://minus9d.hatenablog.com/entry/2015/07/16/231608
 
         """
-        contains_japanese: bool = False
-        count: int = 0  # カウンタ変数。
+        width: int = 0
+        return_string = ''
 
-        for char in string:
-            name = unicodedata.name(char)
+        for i in range(len(string)):
+            return_string = return_string + string[i]
 
-            if ('CJK UNIFIED' in name) or ('HIRAGANA' in name) or ('KATAKANA' in name):
-                count = count + 2  # 日本語は2文字としてカウントする。
-                contains_japanese = True
-
+            if string[i].isascii():
+                width = width + 1
+            elif string[i] in ('゙', '゚'):
+                width = width + 0
             else:
-                count = count + 1
+                width = width + 2  # 日本語は2文字としてカウントする。
+            
+            if width>=30:
+                if string[i+1] in ('゙', '゚'):
+                    return_string = return_string + string[i+1]
+                return_string = return_string + '... '
+                if is_dir_name:
+                    return_string = return_string + '/'
+                    return_string = return_string + ' ' * (38 - (width+len('... /')))
+                else:
+                    return_string = return_string + ' ' * (38 - (width+len('... ')))
+                break
+        else:
+            if is_dir_name:
+                return_string = return_string + '/'
+                return_string = return_string + ' ' * (37 - width)
+            else:
+                return_string = return_string + ' ' * (38 - width)
 
-        self.str_len = count
-        return contains_japanese
+        return return_string
 
-    def align_width(self) -> None:
+    def change_each_name(self) -> None:
         """ディレクトリ名およびファイル名の文字数を調節。
 
         各ディレクトリ名およびファイル名に対して、文字数が38文字になるように空白文字を追加します。
 
         """
         for index, dir_name in enumerate(self.dirs):  # ディレクトリ名について
-            
-            if self.check_japanese_or_not(dir_name):
-                dir_name = dir_name + '/'
-                self.dirs[index] = dir_name + ' ' * (38 - self.str_len)  # 日本語が含まれる場合
-            else:
-                if len(dir_name) >= 28:
-                    dir_name = dir_name[:28] + ' ...  '
-                dir_name = dir_name + '/'
-                self.dirs[index] = dir_name.ljust(38)  # 半角文字のみの場合
+            self.dirs[index] = self.align_width(dir_name, is_dir_name=True)
 
         for index, file_name in enumerate(self.files):  # ファイル名について
-            if self.check_japanese_or_not(file_name):
-                self.files[index] = file_name + ' ' * (38 - self.str_len)  # 日本語が含まれる場合
-            else:
-                if len(file_name) >= 30:
-                    file_name = file_name[:30] + ' ...'
-                self.files[index] = file_name.ljust(38)  # 半角文字のみの場合
+            self.files[index] = self.align_width(file_name, is_dir_name=False)
 
     def create_display_str(self) -> None:
         """表示する文字列の作成。
@@ -143,23 +144,23 @@ class CdAndLs:
 
         """
         dirs_len, files_len = len(self.dirs), len(self.files)
-        dirs_list, files_list, = '', ''  # 作成した文字列を格納する。
+        dirs_list_body, files_list_body, = '', ''  # 作成した文字列を格納する。
 
         # ディレクトリ名について
         for i in range(0, dirs_len - 1, 2):  # 2個ずつ並べる。
-            dirs_list = dirs_list + self.dirs[i] + self.dirs[i + 1] + '\n'
+            dirs_list_body = dirs_list_body + self.dirs[i] + self.dirs[i + 1] + '\n'
 
         if self.dirs and (dirs_len % 2):  # 奇数個 (0でない) の場合。
-            dirs_list = dirs_list + self.dirs[-1]
+            dirs_list_body = dirs_list_body + self.dirs[-1]
 
         # ファイル名について
         for i in range(0, files_len - 1, 2):  # 2個ずつ並べる。
-            files_list = files_list + self.files[i] + self.files[i + 1] + '\n'
+            files_list_body = files_list_body + self.files[i] + self.files[i + 1] + '\n'
 
         if self.files and (files_len % 2):  # 奇数個 (0でない) の場合。
-            files_list = files_list + self.files[-1]
+            files_list_body = files_list_body + self.files[-1]
 
-        self.dirs_list, self.files_list = dirs_list, files_list
+        self.dirs_list_body, self.files_list_body = dirs_list_body, files_list_body
 
     def main(self, path):
         """メインメソッド。
@@ -170,13 +171,13 @@ class CdAndLs:
         """
         self.change_dir(path)  # 指定したパスへ移動。
         self.get_items()  # ディレクトリ名とファイル名を全て取得。
-        self.align_width()  # 幅が半角で38文字分になるように空白を追加。
+        self.change_each_name()  # 幅が半角で38文字分になるように空白を追加。
         self.create_display_str()  # 2列ずつに並べて文字列を作成。
 
-        if not self.dirs_list:
-            self.dirs_list = '↪︎ No Directories'  # ディレクトリが無い場合。
+        if not self.dirs_list_body:
+            self.dirs_list_body = '↪︎ No Directories'  # ディレクトリが無い場合。
 
-        if not self.files_list:
-            self.files_list = '↪︎ No files'  # ファイルが無い場合。
+        if not self.files_list_body:
+            self.files_list_body = '↪︎ No files'  # ファイルが無い場合。
 
-        print(self.dirs_list_header + self.dirs_list + self.files_list_header + self.files_list)
+        print(self.dirs_list_header + self.dirs_list_body + self.files_list_header + self.files_list_body)
