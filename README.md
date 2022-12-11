@@ -1,11 +1,11 @@
 # Change Directory AND LiSt all components
 ![demo](./imgs/demo.png)
-**cd** (ディレクトリを移動) した時に **ls -a** (移動先のディレクトリ名・ファイル名を全て表示) してくれる関数を作成しました。[xonsh](https://xon.sh) 上で実行できます。  
-※ [こちら](https://qiita.com/shoutar0m/items/df122410820cdf7c7dea) も合わせてご覧ください。
+**cd** (ディレクトリを移動) した時に **ls -a** (移動先のディレクトリ名・ファイル名を全て表示) してくれる [xonsh](https://xon.sh) 用の関数を作成しました。  
+
 
 ## Requirements
-- Python==3.8
-- xonsh==0.11.0
+- Python>=3.8
+- xonsh>=0.11.0
 
 ## Install
 以下のコマンドでこのリポジトリをクローンしてください。
