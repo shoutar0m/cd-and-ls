@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """My Functions
 
-自作モジュールとして .xonshrc から呼び出すクラスを定義します。
+自作関数として .xonshrc から呼び出すクラスを定義します。
 
 Note:
     例えば、.xonshrc で以下のように呼び出します。::
@@ -39,8 +39,8 @@ class CdAndLs:
         self.dirs: list[str] = []
         self.files: list[str] = []
         self.str_len: int = 0
-        self.dirs_list_header: str = '\n' + '------- directories -------'.center(52) + '\n'
-        self.files_list_header: str = '\n\n' + '------- files -------'.center(52) + '\n'
+        self.dirs_list_header: str = '\n' + '------- directories -------'.center(55) + '\n'
+        self.files_list_header: str = '\n\n' + '------- files -------'.center(55) + '\n'
         self.dirs_list_body: str = ''
         self.files_list_body: str = ''
 
@@ -76,25 +76,22 @@ class CdAndLs:
 
         self.dirs, self.files = dirs, files
 
-    def align_width(self, string: str, is_dir_name: bool =True) -> bool:
-        """文字列中に日本語が含まれるかの判断。
+    def align_width(self, string: str, is_dir_name: bool = True) -> bool:
+        """文字幅を考慮して文字数を42文字に整える。
 
-        引数に渡した文字列に日本語が含まれるか判断します。
-        日本語が含まれる場合は、その文字を半角2文字分として文字数をカウントします。
+        引数に渡した文字列の1文字毎の文字幅を考慮しながら文字列の長さを42文字に整えます。
+        日本語が含まれる場合は、その文字を半角2文字分としてカウントします。
 
         Args:
             string (str): 日本語が含まれるかどうか判断したい文字列。
+            is_dir_name (bool): ディレクトリ名かどうかを表す真偽値。
 
         Returns:
-            contains_japanese (bool): 全角文字が含まれる場合は True が返されます。
-
-        Note:
-            文字列に日本語が含まれるかの判断は、以下のサイトを参考にさせていただきました。
-            https://minus9d.hatenablog.com/entry/2015/07/16/231608
+            return_string (str): 半角30文字分を超える長さの場合は途中で文字列を返します。
 
         """
         width: int = 0
-        return_string = ''
+        return_string: str = ''
 
         for i in range(len(string)):
             return_string = return_string + string[i]
@@ -102,9 +99,9 @@ class CdAndLs:
             if string[i].isascii():
                 width = width + 1
             elif string[i] in ('゙', '゚'):
-                width = width + 0
+                width = width + 0  # 濁点などは0文字分としてカウントする。
             else:
-                width = width + 2  # 日本語は2文字としてカウントする。
+                width = width + 2  # 日本語は半角2文字分としてカウントする。
             
             if width>=30:
                 if string[i+1] in ('゙', '゚'):
@@ -112,23 +109,23 @@ class CdAndLs:
                 return_string = return_string + '... '
                 if is_dir_name:
                     return_string = return_string + '/'
-                    return_string = return_string + ' ' * (38 - (width+len('... /')))
+                    return_string = return_string + ' ' * (42 - (width+len('... /')))
                 else:
-                    return_string = return_string + ' ' * (38 - (width+len('... ')))
+                    return_string = return_string + ' ' * (42 - (width+len('... ')))
                 break
         else:
             if is_dir_name:
                 return_string = return_string + '/'
-                return_string = return_string + ' ' * (37 - width)
+                return_string = return_string + ' ' * (41 - width)
             else:
-                return_string = return_string + ' ' * (38 - width)
+                return_string = return_string + ' ' * (42 - width)
 
         return return_string
 
-    def change_each_name(self) -> None:
-        """ディレクトリ名およびファイル名の文字数を調節。
+    def change_names(self) -> None:
+        """ディレクトリ名およびファイル名変更。
 
-        各ディレクトリ名およびファイル名に対して、文字数が38文字になるように空白文字を追加します。
+        各ディレクトリ名およびファイル名をalign_width()メソッドを使用して変更する。
 
         """
         for index, dir_name in enumerate(self.dirs):  # ディレクトリ名について
@@ -137,7 +134,7 @@ class CdAndLs:
         for index, file_name in enumerate(self.files):  # ファイル名について
             self.files[index] = self.align_width(file_name, is_dir_name=False)
 
-    def create_display_str(self) -> None:
+    def set_each_list_body(self) -> None:
         """表示する文字列の作成。
 
         リスト内の各要素を2個ずつ並べて、一覧表示するための文字列を作成します。
@@ -171,8 +168,8 @@ class CdAndLs:
         """
         self.change_dir(path)  # 指定したパスへ移動。
         self.get_items()  # ディレクトリ名とファイル名を全て取得。
-        self.change_each_name()  # 幅が半角で38文字分になるように空白を追加。
-        self.create_display_str()  # 2列ずつに並べて文字列を作成。
+        self.change_names()  # 幅が半角で42文字分になるように空白を追加。
+        self.set_each_list_body()  # 2列ずつに並べて文字列を作成。
 
         if not self.dirs_list_body:
             self.dirs_list_body = '↪︎ No Directories'  # ディレクトリが無い場合。
