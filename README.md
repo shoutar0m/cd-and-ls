@@ -4,44 +4,45 @@
 
 
 ## Requirements
-- Python>=3.8
-- xonsh>=0.11.0
-
-## Install
-以下のコマンドでこのリポジトリをクローンしてください。
-
-```
-git clone "https://github.com/shoutar0m/cd-and-ls"
-```
+- Python>=3.10.5
+- xonsh>=0.13.3
 
 ## Usage
-1.  `.xonshrc` を適切なディレクトリに作成してください。
-2.  以下のコードや `.xonshrc_example` を参考に、`CdAndLs` クラスの `main()` メソッドを呼び出すコードとエイリアスを追記してください。
+1.  以下のコマンドでこのリポジトリをクローンしてください。
 
-```.xonshrc
-import sys
-sys.path.append('path/to/myfunc.py')
-	
-from myfunc import CdAndLs
-	
-# 自作関数の定義
-def cd_and_ls(arg):
-	
-    ︙
-	
-    func = CdAndLs()
-    func.main(path)
-	
-    ︙
-	
-	
-# エイリアスの作成
-aliases['cd'] = cd_and_ls
-```
+	```
+	git clone "https://github.com/shoutar0m/cd-and-ls"
+	```
+
+2. `.xonshrc` を適切なディレクトリに作成してください。
+3. 以下のコードや `.xonshrc_example` を参考に、`CdAndLs` クラスの `main()` メソッドを呼び出すコードとエイリアスを `.xonshrc` に追記してください。
+
+	```.xonshrc
+	import sys
+	sys.path.append('path/to/myfunc.py')
+		
+	from myfunc import CdAndLs
+		
+	# 自作関数の定義
+	def cd_and_ls(arg):
+		
+	    ︙
+		
+	    func = CdAndLs()
+	    func.main(path)
+		
+	    ︙
+		
+		
+	# エイリアスの作成
+	aliases['cd'] = cd_and_ls
+	```
+
 3. ターミナルアプリを起動し、以下のように `cd` コマンドをご使用ください。
 
-```
-cd Development/Python/xonsh_func  # Example
-```
+	```
+	cd Development/Python/xonsh_func  # Example
+	```
+
 ![demo](./imgs/demo.png)
 
