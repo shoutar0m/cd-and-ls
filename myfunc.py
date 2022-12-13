@@ -11,7 +11,6 @@ class CdAndLs:
         self.new_path (str): 移動先のパスを格納する。
         self.dirs List[str]: ディレクトリ名の一覧を格納する変数。
         self.files List[str]: ファイル名の一覧を格納する変数。
-        self.str_len (int): 全角を含んだ文字列の文字数を格納する変数。
         self.dirs_list_header (str): ディレクトリ一覧のタイトル。
         self.files_list_header (str): ファイル一覧のタイトル。
         self.dirs_list_body (str): ディレクトリ一覧を表示するための文字列を格納する変数。
@@ -23,7 +22,6 @@ class CdAndLs:
         self.new_path: str = ''
         self.dirs: list[str] = []
         self.files: list[str] = []
-        self.str_len: int = 0
         self.dirs_list_header: str = '\n' + '------- directories -------'.center(55) + '\n'
         self.files_list_header: str = '\n\n' + '------- files -------'.center(55) + '\n'
         self.dirs_list_body: str = ''
