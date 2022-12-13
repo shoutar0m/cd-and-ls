@@ -42,7 +42,7 @@ class CdAndLs:
         os.chdir(path)
         self.new_path = os.getcwd()
 
-    def get_items(self) -> None:
+    def get_components(self) -> None:
         """ディレクトリ名とファイル名の取得。
 
         カレントディレクトリのディレクトリ名とファイル名を全て取得し、アルファベット順にソートします。
@@ -152,7 +152,7 @@ class CdAndLs:
 
         """
         self.change_dir(path)  # 指定したパスへ移動。
-        self.get_items()  # ディレクトリ名とファイル名を全て取得。
+        self.get_components()  # ディレクトリ名とファイル名を全て取得。
         self.change_names()  # 幅が半角で42文字分になるように空白を追加。
         self.set_each_list_body()  # 2列ずつに並べて文字列を作成。
 
