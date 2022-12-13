@@ -1,19 +1,4 @@
 # -*- coding: utf-8 -*-
-"""My Functions
-
-自作関数として .xonshrc から呼び出すクラスを定義します。
-
-Note:
-    例えば、.xonshrc で以下のように呼び出します。::
-
-    import sys
-    sys.path.append('path/to/myfunc.py')
-
-    from myfunc import CdAndLs
-    func = CdAndLs()
-
-"""
-
 import os
 
 
@@ -23,7 +8,7 @@ class CdAndLs:
     cd した時に ls -a するために必要な属性とメソッドを定義します。
 
     Attributes:
-        new_path (str): 移動先のパスを格納する。
+        self.new_path (str): 移動先のパスを格納する。
         self.dirs List[str]: ディレクトリ名の一覧を格納する変数。
         self.files List[str]: ファイル名の一覧を格納する変数。
         self.str_len (int): 全角を含んだ文字列の文字数を格納する変数。
