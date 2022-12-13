@@ -70,7 +70,7 @@ class CdAndLs:
             is_dir_name (bool): ディレクトリ名かどうかを表す真偽値。
 
         Returns:
-            return_string (str): 半角30文字分を超える長さの場合は途中で文字列を返します。
+            return_string (str): 半角42文字分に文字数を整えた文字列を返します。
 
         """
         width: int = 0
