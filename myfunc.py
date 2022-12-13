@@ -48,12 +48,12 @@ class CdAndLs:
         カレントディレクトリのディレクトリ名とファイル名を全て取得し、アルファベット順にソートします。
 
         """
-        all_items: list[str] = os.listdir(self.new_path)
+        components: list[str] = os.listdir(self.new_path)
 
-        dirs: list[str] = [dir_name for dir_name in all_items
+        dirs: list[str] = [dir_name for dir_name in components
                            if os.path.isdir(os.path.join(self.new_path, dir_name))]  # ディレクトリ名のみを取得する。
 
-        files: list[str] = [file_name for file_name in all_items
+        files: list[str] = [file_name for file_name in components
                             if os.path.isfile(os.path.join(self.new_path, file_name))]  # ファイル名のみを取得する。
 
         dirs.sort(key=str.lower)
