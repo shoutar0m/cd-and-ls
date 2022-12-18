@@ -5,7 +5,7 @@ import os
 class CdAndLs:
     """Change Directory And List All Components.
 
-    cd した時に ls -a するために必要な属性とメソッドを定義します。
+    cd した後に ls -a するために必要な属性とメソッドを定義します。
 
     Attributes:
         self.new_path (str): 移動先のパスを格納する。
