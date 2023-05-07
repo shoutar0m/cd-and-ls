@@ -17,7 +17,7 @@ If the `cd` (**Change Directory**) command was called on a terminal in which thi
 
 2. Create `.xonshrc` in any directory.
 3. Add some source codes to call the `main()` method in the `CdAndLs` class and declare an alias to make this function the `cd` command.  
-you can see the following source codes and `.xonshrc_example` as a sample.
+You can see the following source codes and `.xonshrc_example` as a sample.
 
 	```.xonshrc
 	import sys
