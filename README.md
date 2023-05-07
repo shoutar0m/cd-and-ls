@@ -1,6 +1,6 @@
 # Change Directory AND LiSt All components
 ![demo](./imgs/demo.png)
-I created a useful function that functions on xonsh. 
+I created a useful function that functions on xonsh.   
 If the `cd` (**Change Directory**) command was called on a terminal in which this function is applied, this function calls the `ls -a` (**LiSt All components**) command together, so the working directory is moved to and then the terminal shows what directories and files are in that.
 (This functions correctly only in **English** or **Japanese** environment.)
 
