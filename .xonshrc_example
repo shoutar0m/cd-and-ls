@@ -2,7 +2,8 @@
 import sys
 sys.path.append('path/to/myfunc.py')
 
-from myfunc import CdAndLs
+from xonfuncs import CdAndLs
+
 
 # 自作関数を定義
 def cd_and_ls(arg):
