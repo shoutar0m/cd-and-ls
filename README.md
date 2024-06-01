@@ -2,7 +2,7 @@
 ![demo](./imgs/demo.png)
 I created a function works as a command on xonsh shell.  
 
-If you put this xonfuncs.py module in any directory and add some lines to the `.xonshrc`, your terminal app shows all components in the destination directory, as if you execute the `ls -a` (**LiSt All components**) unix command, every time you execute the `cd` (**Change Directory**) unix command. 
+If you put this xonfuncs.py module in any directory and add some lines to the `.xonshrc`, your terminal app shows all components in the destination directory, as if you execute the `ls -a` (**LiSt All components**) UNIX/LINUX command together, every time you execute the `cd` (**Change Directory**) UNIX/LINUX command. 
 
 (Currently, this function works correctly only in **English** or **Japanese**.)
 
