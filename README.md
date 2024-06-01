@@ -18,26 +18,21 @@ If the `cd` (**Change Directory**) command was called on a terminal in which thi
 	```
 
 2. Create `.xonshrc` if you have not.
-3. Add some lines to call the `main()` method in the `CdAndLs` class and declare an alias to make this function the `cd` command.  
-You can see the following source codes and `.xonshrc_example` as a sample.
+3. Add some lines as the following to the `.xonshrc`.
 
 	```.xonshrc
 	import sys
 	sys.path.append('path/to/myfunc.py')
-		
+	
 	from myfunc import CdAndLs
-		
-	# Declare my function.
-	def cd_and_ls(arg):
-		
-	    ︙
-		
+	
+	
+	# Declare a function.
+	def cd_and_ls(path):
 	    func = CdAndLs()
-	    func.main(path)
-		
-	    ︙
-		
-		
+	    func.main(path)  
+	
+	
 	# Declare an alias.
 	aliases['cd'] = cd_and_ls
 	```
@@ -48,5 +43,5 @@ You can see the following source codes and `.xonshrc_example` as a sample.
 	cd Development/Python/xonsh_func  # Example
 	```
 	
-	Your terminal must show as the following chart.
+	Your terminal must show like the following chart.
 ![demo](./imgs/demo.png)
