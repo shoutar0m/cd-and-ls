@@ -177,8 +177,7 @@ class CdAndLs:
             # Display directory names nad file names in the destination directory.
             current_path: str = self.change_directory(dest_path=path)
             dir_and_file_names: tuple[list[str], list[str]] = self.get_all_components(path=current_path)
-            #print(self.create_stdout_string(*(dir_and_file_names)))
-            print(self.create_stdout_string(dir_and_file_names[0], dir_and_file_names[1]))
+            print(self.create_stdout_string(*(dir_and_file_names)))
         
         except FileNotFoundError:
             print(f'\nNo such directory: "{path}"')
