@@ -1,26 +1,9 @@
 
 import sys
-sys.path.append('path/to/myfunc.py')
+sys.path.append('path/to/xonfuncs.py')
 
 from xonfuncs import CdAndLs
 
 
-# 自作関数を定義
-def cd_and_ls(arg):
-    """cd した時に ls してくれる関数。"""
-
-    try:
-        if arg[:1]:
-            path = str(arg[:1][0])
-        else:
-            path = 'path/to/home'  # cd のみ (引数無し) の場合
-
-        func = CdAndLs()
-        func.main(path)
-
-    except FileNotFoundError:
-        print(f'\nNo such directory: "{path}"')
-
-
-# エイリアスを作成
-aliases['cd'] = cd_and_ls
+# Declare an alias.
+aliases['cd'] = CdAndLs('path/to/home').cd_and_ls
