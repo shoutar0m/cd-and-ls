@@ -1,163 +1,193 @@
 # -*- coding: utf-8 -*-
 import os
+import sys
 
 
 class CdAndLs:
-    """Change Directory And List All Components.
+    """ Change Directory And List All Components.
 
-    cd した後に ls -a するために必要な属性とメソッドを定義します。
+    This class has got attributes and methods to change directory and list components.
 
     Attributes:
-        self.new_path (str): 移動先のパスを格納する。
-        self.dirs List[str]: ディレクトリ名の一覧を格納する変数。
-        self.files List[str]: ファイル名の一覧を格納する変数。
-        self.dirs_list_header (str): ディレクトリ一覧のタイトル。
-        self.files_list_header (str): ファイル一覧のタイトル。
-        self.dirs_list_body (str): ディレクトリ一覧を表示するための文字列を格納する変数。
-        self.files_list_body (str): ファイル一覧を表示するための文字列を格納する変数。
+        __home_dir_path (str): Path string to the home directory.
+        __zero_space_japanese_characters (list[str]): Zero space Japanese characters.
+        __total_name_length (int): Total name length. This should be longer than 12.
+        __dirs_list_string_header (str): Header string of the directory names list string.
+        __files_list_string_header (str): Header string of the file names list string.
 
     """
 
-    def __init__(self):
-        self.new_path: str = ''
-        self.dirs: list[str] = []
-        self.files: list[str] = []
-        self.dirs_list_header: str = '\n' + '------- directories -------'.center(55) + '\n'
-        self.files_list_header: str = '\n\n' + '------- files -------'.center(55) + '\n'
-        self.dirs_list_body: str = ''
-        self.files_list_body: str = ''
+    def __init__(self, home_dir_path: str):
+        self.__home_dir_path: str = home_dir_path
+        self.__zero_space_japanese_characters: list[str] = ['゙', '゚']
+        self.__total_name_length: int = 37
+        self.__dirs_list_string_header: str = '------- directories -------'.center(int(self.__total_name_length * 1.5))
+        self.__files_list_string_header: str = '------- files -------'.center(int(self.__total_name_length * 1.5))
 
+    def change_directory(self, dest_path: str) -> str:
+        """ Change directory and return its path string.
 
-    def change_dir(self, path: str) -> None:
-        """ディレクトリの移動。
+        Arg:
+            dest_path (str): Destination directory path string.
 
-        引数で渡されたディレクトリへ移動し、移動先の絶対パスを取得します。
-
-        Args:
-            path (str): 移動先を指定するパス。
-
+        Return:
+            This returns destination directory path string after moved.
+        
         """
-        os.chdir(path)
-        self.new_path = os.getcwd()
 
-    def get_components(self) -> None:
-        """ディレクトリ名とファイル名の取得。
+        os.chdir(dest_path)
+        return os.getcwd()
 
-        カレントディレクトリのディレクトリ名とファイル名を全て取得し、アルファベット順にソートします。
-
-        """
-        components: list[str] = os.listdir(self.new_path)
-
-        dirs: list[str] = [dir_name for dir_name in components
-                           if os.path.isdir(os.path.join(self.new_path, dir_name))]  # ディレクトリ名のみを取得する。
-
-        files: list[str] = [file_name for file_name in components
-                            if os.path.isfile(os.path.join(self.new_path, file_name))]  # ファイル名のみを取得する。
-
-        dirs.sort(key=str.lower)
-        files.sort(key=str.lower)
-
-        self.dirs, self.files = dirs, files
-
-    def align_width(self, string: str, is_dir_name: bool = True) -> bool:
-        """文字幅を考慮して文字数を42文字に整える。
-
-        引数に渡した文字列の1文字毎の文字幅を考慮しながら文字列の長さを42文字に整えます。
-        日本語が含まれる場合は、その文字を半角2文字分としてカウントします。
-
+    def get_all_components(self, path: str) -> tuple[list[str], list[str]]:
+        """ Get and return all directory names and file names in the destination directory.
+        
         Args:
-            string (str): 日本語が含まれるかどうか判断したい文字列。
-            is_dir_name (bool): ディレクトリ名かどうかを表す真偽値。
+            path (str): Path string. This method gets components in the directory of this 'path'.
 
         Returns:
-            return_string (str): 半角42文字分に文字数を整えた文字列を返します。
+            dir_names (list[str]): Directory names in the directory of the 'path'.
+            file_names (list[str]): File names in the directory of the 'path'.
 
         """
-        width: int = 0
+
+        dir_names: list[str] = sorted([
+            dir_name for dir_name in os.listdir(path)
+            if os.path.isdir(os.path.join(path, dir_name))
+        ], key=str.lower)
+
+        file_names: list[str] = sorted([
+            file_name for file_name in os.listdir(path)
+            if os.path.isfile(os.path.join(path, file_name))
+        ], key=str.lower)
+
+        return dir_names, file_names
+
+    def add_white_spaces(self, name: str, total_length: int, is_dir_name: bool = True) -> str:
+        """ Add white spaces up to specified length.
+
+        This adds white spaces to the string got as 'name' argument up to specified length.
+        Then, this counts each character length as a 2 if it's not ascii character.
+
+        Args:
+            name (str): File name or Directory name.
+            total_length (int): The number of max length of the return string. This should be longer than 12.
+            is_dir_name (bool): The name is of directory or not.
+
+        Returns:
+            return_string (str): String with white spaces up to specified length.
+
+        """
+
+        current_length: int = 0
         return_string: str = ''
 
-        for i in range(len(string)):
-            return_string = return_string + string[i]
+        for i in range(len(name)):
+            return_string = return_string + name[i]
 
-            if string[i].isascii():
-                width = width + 1
-            elif string[i] in ('゙', '゚'):
-                width = width + 0  # 濁点などは0文字分としてカウントする。
-            else:
-                width = width + 2  # 日本語は半角2文字分としてカウントする。
+            # Count the number of the character length up to current index.
+            # If the character of current index is ascii character, ...
+            if name[i].isascii():
+                current_length = current_length + 1  # Plus one.
             
-            if width>=30:
-                if string[i+1] in ('゙', '゚'):
-                    return_string = return_string + string[i+1]
-                return_string = return_string + '... '
+            # If the character of current index is any zero space Japanese character, ...
+            elif name[i] in self.__zero_space_japanese_characters:
+                current_length = current_length + 0  # Plus zero.
+            
+            # If other cases, ...
+            else:
+                current_length = current_length + 2  # Plus two.
+
+            # If the current length is over the specified, exits this loop and returns the current string.
+            if current_length >= (total_length - (len('... /') - 2)):
+                if name[i + 1] in self.__zero_space_japanese_characters:
+                    return_string = return_string + name[i + 1]
+
                 if is_dir_name:
-                    return_string = return_string + '/'
-                    return_string = return_string + ' ' * (42 - (width+len('... /')))
+                    return return_string + '... /' + (' ' * (total_length - (current_length + len('... /'))))
+                    
                 else:
-                    return_string = return_string + ' ' * (42 - (width+len('... ')))
-                break
+                    return return_string + '... ' + (' ' * (total_length - (current_length + len('... '))))
+            
+        # If this loop finished without leaving, ...
         else:
             if is_dir_name:
-                return_string = return_string + '/'
-                return_string = return_string + ' ' * (41 - width)
+                return return_string + '/' + (' ' * (total_length - 1 - current_length))
+            
             else:
-                return_string = return_string + ' ' * (42 - width)
+                return return_string + (' ' * (total_length - current_length))
 
-        return return_string
+    def create_stdout_string(self, dir_names: list[str], file_names: list[str]) -> str:
+        """ Create and return stdout string.
+        
+        Args:
+            dir_names (str): Directory names to create stdout string.
+            file_names (str): File names to create stdout string.
 
-    def change_names(self) -> None:
-        """ディレクトリ名およびファイル名変更。
-
-        各ディレクトリ名およびファイル名をalign_width()メソッドを使用して変更する。
-
-        """
-        for index, dir_name in enumerate(self.dirs):  # ディレクトリ名について
-            self.dirs[index] = self.align_width(dir_name, is_dir_name=True)
-
-        for index, file_name in enumerate(self.files):  # ファイル名について
-            self.files[index] = self.align_width(file_name, is_dir_name=False)
-
-    def set_each_list_body(self) -> None:
-        """表示する文字列の作成。
-
-        リスト内の各要素を2個ずつ並べて、一覧表示するための文字列を作成します。
+        Return:
+            This returns stdout string to display all components in the destination directory.
 
         """
-        dirs_len, files_len = len(self.dirs), len(self.files)
-        dirs_list_body, files_list_body, = '', ''  # 作成した文字列を格納する。
 
-        # ディレクトリ名について
-        for i in range(0, dirs_len - 1, 2):  # 2個ずつ並べる。
-            dirs_list_body = dirs_list_body + self.dirs[i] + self.dirs[i + 1] + '\n'
+        # Create a directory names list string body.
 
-        if self.dirs and (dirs_len % 2):  # 奇数個 (0でない) の場合。
-            dirs_list_body = dirs_list_body + self.dirs[-1]
+        dirs_list_string_body: str = ''
+        for i in range(0, len(dir_names) - 1, 2):
+            dirs_list_string_body = dirs_list_string_body + \
+                self.add_white_spaces(name=dir_names[i], total_length=self.__total_name_length, is_dir_name=True) + \
+                self.add_white_spaces(name=dir_names[i + 1], total_length=self.__total_name_length, is_dir_name=True) + '\n'
 
-        # ファイル名について
-        for i in range(0, files_len - 1, 2):  # 2個ずつ並べる。
-            files_list_body = files_list_body + self.files[i] + self.files[i + 1] + '\n'
+        if dir_names and (len(dir_names) % 2):
+            dirs_list_string_body = dirs_list_string_body + \
+                self.add_white_spaces(name=dir_names[-1], total_length=self.__total_name_length, is_dir_name=True)
+            
+        if not dirs_list_string_body:
+            dirs_list_string_body = '↪︎ No Directories'
+            
+        # Create a file names list string body.
+        files_list_string_body: str = ''
+        for i in range(0, len(file_names) - 1, 2):
+            files_list_string_body = files_list_string_body + \
+                self.add_white_spaces(name=file_names[i], total_length=self.__total_name_length, is_dir_name=False) + \
+                self.add_white_spaces(name=file_names[i + 1], total_length=self.__total_name_length, is_dir_name=False) + '\n'
 
-        if self.files and (files_len % 2):  # 奇数個 (0でない) の場合。
-            files_list_body = files_list_body + self.files[-1]
+        if file_names and (len(file_names) % 2):
+            files_list_string_body = files_list_string_body + \
+                self.add_white_spaces(name=file_names[-1], total_length=self.__total_name_length, is_dir_name=False)
+        
+        if not files_list_string_body:
+            files_list_string_body = '↪︎ No files'
 
-        self.dirs_list_body, self.files_list_body = dirs_list_body, files_list_body
+        return f'\n{self.__dirs_list_string_header}\n{dirs_list_string_body}\n\n' + \
+            f'{self.__files_list_string_header}\n{files_list_string_body}'
+    
+    def cd_and_ls(self, stdins: list[str] = []) -> None:
+        """ Main method of this class.
 
-    def main(self, path):
-        """メインメソッド。
-
-        上記で定義したメソッドを適切な順序で呼び出します。
-        .xonshrc でこのメソッドを呼び出してください。
+        Arg:
+            stdins (list[str]): Standard input list.
 
         """
-        self.change_dir(path)  # 指定したパスへ移動。
-        self.get_components()  # ディレクトリ名とファイル名を全て取得。
-        self.change_names()  # 幅が半角で42文字分になるように空白を追加。
-        self.set_each_list_body()  # 2列ずつに並べて文字列を作成。
 
-        if not self.dirs_list_body:
-            self.dirs_list_body = '↪︎ No Directories'  # ディレクトリが無い場合。
+        try:
+            # Get destination directory path from stdin.
+            path: str = self.__home_dir_path
+            if stdins[:1]:
+                path = str(stdins[:1][0])
+            
+            # Display directory names nad file names in the destination directory.
+            current_path: str = self.change_directory(dest_path=path)
+            dir_and_file_names: tuple[list[str], list[str]] = self.get_all_components(path=current_path)
+            #print(self.create_stdout_string(*(dir_and_file_names)))
+            print(self.create_stdout_string(dir_and_file_names[0], dir_and_file_names[1]))
+        
+        except FileNotFoundError:
+            print(f'\nNo such directory: "{path}"')
+        
+        except Exception as e:
+            print(e)
 
-        if not self.files_list_body:
-            self.files_list_body = '↪︎ No files'  # ファイルが無い場合。
 
-        print(self.dirs_list_header + self.dirs_list_body + self.files_list_header + self.files_list_body)
+if __name__ == '__main__':
+
+    # Change Directory And List All Components.
+    CdAndLs('path/to/home').cd_and_ls()
