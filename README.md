@@ -22,30 +22,13 @@ If you put this xonfuncs.py module in any directory and add some lines to the `.
 
 	```.xonshrc
 	import sys
-	sys.path.append('path/to/myfunc.py')
+	sys.path.append('path/to/xonfuncs.py')
 	
 	from xonfuncs import CdAndLs
 	
 	
-	# Declare a function.
-	def cd_and_ls(arg):
-	    """ List all components after changing a directory. """
-	    
-	    try:
-            if arg[:1]:
-                path = str(arg[:1][0])
-            else:
-                path = 'path/to/home'
-
-            func = CdAndLs()
-            func.main(path)
-
-        except FileNotFoundError:
-            print(f'\nNo such directory: "{path}"')
-	
-	
 	# Declare an alias.
-	aliases['cd'] = cd_and_ls
+	aliases['cd'] = CdAndLs('path/to/home').cd_and_ls
 	```
 
 4. Launch your terminal app and try the `cd` command like the following. 
