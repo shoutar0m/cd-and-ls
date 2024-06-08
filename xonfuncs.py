@@ -21,8 +21,8 @@ class CdAndLs:
         self.__home_dir_path: str = home_dir_path
         self.__zero_space_japanese_characters: list[str] = ['゙', '゚']
         self.__total_name_length: int = 37
-        self.__dirs_list_string_header: str = '------- directories -------'.center(int(self.__total_name_length * 1.5))
-        self.__files_list_string_header: str = '------- files -------'.center(int(self.__total_name_length * 1.5))
+        self.__dirs_list_string_header: str = '------- directories -------'.center(int(self.__total_name_length * 1.35))
+        self.__files_list_string_header: str = '------- files -------'.center(int(self.__total_name_length * 1.35))
 
     def change_directory(self, dest_path: str) -> str:
         """ Change directory and return its path string.
